@@ -13,23 +13,29 @@ const getAllBooks = async (req, res) => {
 
 // add new book to collection
 const addBook = async (req, res) => {
-  try {
-    const { title, author, price, category, inStock } = req.body;
-
-    if (!title || !author || !price || !category) {
-      return res.status(400).json({ statusCode: 400, message: 'Missing required fields' });
+    try {
+      let books = req.body;
+  
+      // Check if single object, wrap in array
+      if (!Array.isArray(books)) {
+        books = [books];
+      }
+  
+      // Validate required fields
+      for (let b of books) {
+        if (!b.title || !b.author || !b.price || !b.category) {
+          return res.status(400).json({ statusCode: 400, message: 'Missing required fields in one of the books' });
+        }
+      }
+  
+      const savedBooks = await Book.insertMany(books);
+      res.status(201).json({ statusCode: 201, data: savedBooks });
+    } catch (error) {
+      console.error('Error in addBook:', error);
+      res.status(500).json({ statusCode: 500, message: 'Internal server error' });
     }
-
-    const book = new Book({ title, author, price, category, inStock });
-    const savedBook = await book.save();
-
-    res.status(201).json({ statusCode: 201, data: savedBook });
-  } catch (error) {
-    console.error('Error in addBook:', error);
-    res.status(500).json({ statusCode: 500, message: 'Internal server error' });
-  }
-};
-
+  };
+  
 //  update a book in collection by passing the id
 const updateBook = async (req, res) => {
   try {

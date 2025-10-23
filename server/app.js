@@ -1,11 +1,13 @@
 require('dotenv').config(); // <-- must be at top
 const express = require('express');
+const cors = require('cors');
 const createError = require('http-errors');
 const { initializeDatabaseConnection } = require('./config/db');
 const bookRoutes = require('./routes/bookRoutes');
 
 const app = express();
 app.use(express.json());
+app.use(cors());
 
 (async () => {
   try {

@@ -1,17 +1,19 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { useState } from "react";
+import Login from "./pages/Login";
+import Dashboard from "./pages/Dashboard";
 
-function App() {
-  const [count, setCount] = useState(0)
+const App = () => {
+  const [user, setUser] = useState(null); // null = not logged in
 
   return (
     <>
-      <h1 className='text-3xl font-bold underline'>Book Inventory</h1>
-        
+      {!user ? (
+        <Login onLogin={setUser} /> // Show login page initially
+      ) : (
+        <Dashboard user={user} /> // Show dashboard after login
+      )}
     </>
-  )
-}
+  );
+};
 
-export default App
+export default App;
