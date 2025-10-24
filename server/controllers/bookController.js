@@ -10,7 +10,6 @@ const getAllBooks = async (req, res) => {
     res.status(500).json({ statusCode: 500, message: 'Internal server error' });
   }
 };
-
 // add new book to collection
 const addBook = async (req, res) => {
     try {
@@ -35,8 +34,7 @@ const addBook = async (req, res) => {
       res.status(500).json({ statusCode: 500, message: 'Internal server error' });
     }
   };
-  
-//  update a book in collection by passing the id
+  //  update a book in collection by passing the id
 const updateBook = async (req, res) => {
   try {
     const { id } = req.params;
@@ -55,7 +53,6 @@ const updateBook = async (req, res) => {
     res.status(500).json({ statusCode: 500, message: 'Internal server error' });
   }
 };
-
 // delete a book from collection by passing the id
 const deleteBook = async (req, res) => {
   try {

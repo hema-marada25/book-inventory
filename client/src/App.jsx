@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 
 const App = () => {
-  const [user, setUser] = useState(null); // null = not logged in
+ 
 
   return (
     <BrowserRouter>
