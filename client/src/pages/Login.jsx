@@ -1,28 +1,46 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { TextField, Button } from "@mui/material";
 import { Lock, Email } from '@mui/icons-material';
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+
 
 const Login = ({ onLogin }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+const navigate = useNavigate();
 
-  const handleLogin = () => {
-    // Simple demo validation: min 6 chars password and email not empty
+  const handleLogin = async () => {
     if (!email || password.length < 6) {
       setError("Please enter a valid email and password (min 6 chars)");
       return;
     }
 
-    // Call parent's onLogin to update authenticated state
-    onLogin({ email });
-  };
+    try {
+  const response = await axios.post("http://localhost:5000/api/login", {
+    email,
+    password,
+  });
+  console.log("API response:", response.data);
+
+  localStorage.setItem("token", response.data.token);
+  console.log("User data:", response.data.user);
+
+  onLogin(response.data.user);
+
+  navigate("/dashboard");
+} catch (err) {
+  console.error("Login error:", err);
+  setError(err.response?.data?.message || "Login failed");
+}
+  }
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-blue-50">
       <div className="bg-white p-8 rounded-lg shadow-md w-96 text-center">
         <h2 className="text-xl font-semibold mb-4">Book Inventory System</h2>
-        <p className="text-gray-500 mb-6">Sign in to manage your collection</p>
+        <p className="text-gray-500 mb-6">Sign in to  your account</p>
         {error && <p className="text-red-600 mb-2">{error}</p>}
         <TextField
           label="Email Address"
@@ -51,17 +69,19 @@ const Login = ({ onLogin }) => {
             startAdornment: <Lock className="text-gray-400 mr-2" />,
           }}
         />
+         <p className="text-gray-400 text-sm ml-50">
+         Forgot Password
+        </p>
         <Button
           variant="contained"
           fullWidth
           sx={{ mt: 2 }}
           onClick={handleLogin}
+         
         >
           SIGN IN
         </Button>
-        <p className="text-gray-400 text-sm mt-4">
-          Demo: Use any valid email and password (min 6 characters)
-        </p>
+       
       </div>
     </div>
   );

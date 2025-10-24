@@ -13,14 +13,12 @@ app.use(cors());
   try {
     // Wait for DB to connect first
     await initializeDatabaseConnection();
-
     // Mount routes after DB is ready
-    app.use('/books', bookRoutes);
+    app.use('/api', bookRoutes);
 
     app.get('/', (req, res) => {
       res.send('Book Inventory API is running...');
     });
-
     // 404 handler
     app.use(function(req, res, next) {
       next(createError(404));

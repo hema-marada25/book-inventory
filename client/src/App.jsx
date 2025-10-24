@@ -1,18 +1,19 @@
 import React, { useState } from "react";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+
 
 const App = () => {
   const [user, setUser] = useState(null); // null = not logged in
 
   return (
-    <>
-      {!user ? (
-        <Login onLogin={setUser} /> // Show login page initially
-      ) : (
-        <Dashboard user={user} /> // Show dashboard after login
-      )}
-    </>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Login />} />           {/* Default: login */}
+        <Route path="/dashboard" element={<Dashboard />} /> {/* After login */}
+      </Routes>
+    </BrowserRouter>
   );
 };
 

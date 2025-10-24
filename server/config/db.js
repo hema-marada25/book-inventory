@@ -17,6 +17,7 @@ function getMongoURI() {
     process.exit(1);
   }
   return uri;
+
 }
 async function initializeDatabaseConnection() {
   if (isConnected) {

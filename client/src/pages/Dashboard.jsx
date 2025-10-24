@@ -14,7 +14,7 @@ const Dashboard = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  // ✅ Fetch all books
+  // Fetch all books
   useEffect(() => {
     const fetchBooks = async () => {
       try {
@@ -30,7 +30,7 @@ const Dashboard = () => {
     fetchBooks();
   }, []);
 
-  // ✅ Add / Edit Book (Dynamic API)
+  // Add / Edit Book (Dynamic API)
   const handleAddBook = async (book) => {
     try {
       if (editingBook) {
@@ -69,12 +69,12 @@ const Dashboard = () => {
   if (loading) return <div className="p-6 text-center">Loading books...</div>;
   if (error) return <div className="p-6 text-center text-red-600">{error}</div>;
 
-  return (
-    <div>
-         <Header />
-         <div className="p-6">
+ return (
+  <div className="min-h-screen bg-gray-100">
+    <Header />
+
+    <div className="p-6">
       <div className="flex justify-between mb-4 items-center">
-        
         <SearchFilterBar />
         <Button
           variant="contained"
@@ -85,7 +85,11 @@ const Dashboard = () => {
         </Button>
       </div>
 
-      <BookTable books={books} onEdit={handleEdit} onDelete={handleDelete} />
+      {/*Scroll only this section — header stays fixed */}
+      <div className="max-h-[70vh] overflow-y-auto border rounded-lg">
+        <BookTable books={books} onEdit={handleEdit} onDelete={handleDelete} />
+      </div>
+
       <BookModal
         open={openModal}
         onClose={() => setOpenModal(false)}
@@ -93,9 +97,9 @@ const Dashboard = () => {
         editingBook={editingBook}
       />
     </div>
-    </div>
-    
-  );
+  </div>
+);
+
 };
 
 export default Dashboard;
