@@ -18,7 +18,7 @@ const Login = ({ onLogin }) => {
     }
 
     try {
-      const response = await axios.post("https://book-inventory-5qa9.onrender.com/api//login", {
+      const response = await axios.post("https://book-inventory-5qa9.onrender.com/api/login", {
         email,
         password,
       });
