@@ -7,7 +7,24 @@ const bookRoutes = require('./routes/bookRoutes');
 
 const app = express();
 app.use(express.json());
-app.use(cors());
+// app.use(cors());
+
+const allowedOrigins = [
+  "http://localhost:5173", // local frontend
+  "https://book-inventory-frontend-gyrj8v2y8.vercel.app" // deployed frontend
+];
+
+app.use(cors({
+  origin: function(origin, callback){
+    if(!origin) return callback(null, true); // allow Postman or server-to-server requests
+    if(allowedOrigins.indexOf(origin) === -1){
+      const msg = "The CORS policy for this site does not allow access from the specified Origin.";
+      return callback(new Error(msg), false);
+    }
+    return callback(null, true);
+  },
+  credentials: true
+}));
 
 (async () => {
   try {
